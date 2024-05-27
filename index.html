@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jewelry Price Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="number"], input[type="text"] {
+            padding: 5px;
+            width: 200px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        p#result {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jewelry Price Calculator</h1>
+    <form id="calculator">
+        <label for="goldWeight">Gold Weight (grams):</label>
+        <input type="number" id="goldWeight" name="goldWeight"><br><br>
+
+        <label for="goldKarat">Gold Karat:</label>
+        <input type="number" id="goldKarat" name="goldKarat"><br><br>
+
+        <label for="diamondWeight">Diamond Weight (carats):</label>
+        <input type="number" id="diamondWeight" name="diamondWeight"><br><br>
+
+        <label for="diamondColor">Diamond Color:</label>
+        <input type="text" id="diamondColor" name="diamondColor"><br><br>
+
+        <label for="diamondClarity">Diamond Clarity:</label>
+        <input type="text" id="diamondClarity" name="diamondClarity"><br><br>
+
+        <label for="additionalCarats">Additional Carat Weight (optional):</label>
+        <input type="number" id="additionalCarats" name="additionalCarats"><br><br>
+
+        <button type="button" onclick="calculatePrice()">Calculate Price</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        const goldPrices = {
+            24: 60, // Example prices per gram
+            22: 55,
+            18: 45,
+            14: 35
+        };
+
+        const diamondPrices = {
+            "D": { "IF": 10000, "VVS1": 9000, "VVS2": 8000 },
+            "E": { "IF": 9500, "VVS1": 8500, "VVS2": 7500 },
+            // Add more as needed
+        };
+
+        function calculatePrice() {
+            const goldWeight = parseFloat(document.getElementById('goldWeight').value);
+            const goldKarat = parseInt(document.getElementById('goldKarat').value);
+            const diamondWeight = parseFloat(document.getElementById('diamondWeight').value);
+            const diamondColor = document.getElementById('diamondColor').value;
+            const diamondClarity = document.getElementById('diamondClarity').value;
+            const additionalCarats = parseFloat(document.getElementById('additionalCarats').value || 0);
+
+            const goldPricePerGram = goldPrices[goldKarat];
+            const goldCost = goldWeight * goldPricePerGram * (goldKarat / 24);
+
+            const diamondPricePerCarat = diamondPrices[diamondColor][diamondClarity];
+            const diamondCost = diamondWeight * diamondPricePerCarat;
+
+            const totalCost = goldCost + diamondCost + additionalCarats;
+
+            document.getElementById('result').innerText = `Total Price: $${totalCost.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
